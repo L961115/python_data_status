@@ -1,3 +1,20 @@
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items = []
+
+    def enqueue(self,item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+
+
 '''
 平均每天10名学生在任何给定的时间在实验室工作，每个学号通常在此期间打印2次
 打印一次的范围1-20页 20 400    2  40   4  80
@@ -25,7 +42,7 @@ class Printer:
     def __init__(self,ppm):
         self.pagerate = ppm
         self.currentTask = None #空闲状态
-        self.timeRemaining = 0
+        self.timeRemaining = 0  #打印任务需要时间为0，为空闲状态
 
     def tick(self):
         if self.currentTask != None: # 忙碌状态
@@ -36,7 +53,6 @@ class Printer:
     def busy(self):
         if self.currentTask != None:
             return True
-
         else:
             return False
 
@@ -49,21 +65,52 @@ import random
 class Task:
     def __init__(self,time):
         self.timestamp = time
-        self.pages = random.randrange
+        self.pages = random.randrange(1,21)
+
+    def getStamp(self):
+        return self.timestamp
+
+    def getPages(self):
+        return self.pages
+    
+    def waitTime(self,currenttime):
+        return currenttime - self.timestamp
+    
+
+from pythonds.basic.queue import Queue
+
+#newPrintTask 决定是否创建一个新的打印任务，1个小时之内20任务打印完成，打印任务每180秒到达一次
+def simulation(numSeconds,pagesPerMinute):
+    labprinter = Printer(pagesPerMinute)  # 初始化打印机
+    printQueue = Queue()
+    waitingtimes = []
+
+    for currentSecond in range(numSeconds):
+        if newPrintTask():
+            task = Task(currentSecond)
+            printQueue.enqueue(task)
+
+        if (not labprinter.busy()) and (not printQueue.isEmpty()):
+            nexttask = printQueue.dequeue()
+            waitingtimes.append(nexttask.waitTime(currentSecond))
+            labprinter.startNext(nexttask)
+
+        labprinter.tick()
+
+    averageWait = sum(waitingtimes)/len(waitingtimes)
+
+    print('平均等待时间：%6.2f'%averageWait)
 
 
-# 双端队列--回文词
-def palchecher(astring):
-    chardeque = []
-    for ch in astring:
-        chardeque.append(ch)
+def newPrintTask():
+    num = random.randrange(1,181)
+    if num == 180:
+        return True
+    else:
+        return False
 
-    flag = True
-    while len(chardeque) > 1 and flag:
-        first = chardeque.pop()
-        last = chardeque.pop(0)
-        if first != last:
-            flag = False
-    return flag
+for i in range(10):
+    simulation(3600,5) #一个小时，速率5页
 
-print(palchecher('山西运煤车煤运西山'))
+
+
