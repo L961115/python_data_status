@@ -41,3 +41,25 @@ def listSum2(numList):
 
 print(listSum2([1,3,5,7,9]))
 
+
+
+#栈  实现递归
+
+from  pythonds.basic.stack import Stack
+
+rStack = Stack()
+
+def toStr(n,base):
+    convertString = '0123456789ABCDEF'
+
+    while n > 0:
+        if n < base:
+            rStack.push(convertString[n])
+        else:
+            rStack.push(convertString[n%base])
+        n = n // base
+    res  = ""
+    while not rStack.isEmpty():
+        res = res + str(rStack.pop())
+    return res
+print(toStr(1453,16)) #5AD  = 5*16^2 + 10*16^1 + 13*16^0
