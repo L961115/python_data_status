@@ -40,3 +40,20 @@ def main():
     myScreen.exitonclick()
 
 main()
+
+
+from pythonds.basic.stack import Stack
+def moveTower(height,fromPole,toPole,withPole):
+    if height >= 1:
+        moveTower(height - 1,fromPole,withPole,toPole)
+        moveDisk(fromPole,toPole)
+        moveTower(height - 1,withPole,toPole,fromPole)
+
+def moveDisk(fp,tp):
+    print('移动盘子，从',fp,'到',tp)
+
+fromPole=Stack()
+toPole=Stack()
+withPole=Stack()
+
+moveTower(5,fromPole,toPole,withPole)
