@@ -83,3 +83,27 @@ def insertSort(alist):
 alist = [54,26,93,17,77,31,44,55,20] 
 insertSort(alist)
 print(alist)
+
+
+'''
+    希尔排序
+'''
+def shellSort(alist):
+    sublistcount = len(alist) // 2
+
+    while sublistcount>0:
+        for startposition in range(sublistcount):
+            gapInsertionSort(alist,startposition,sublistcount)
+
+        print('alist:',alist)
+
+        sublistcount = sublistcount // 2
+
+def gapInsertionSort(alist,start,gap):
+    for i in range(start,len(alist),gap):
+        currenValue = alist[i]
+        while i >= gap and alist[i - 1] > currenValue:
+            alist[i] = alist[i - 1]
+            i = i - 1
+
+        alist[i]  =currenValue
