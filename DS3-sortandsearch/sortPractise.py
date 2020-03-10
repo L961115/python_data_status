@@ -66,3 +66,20 @@ def selectionSort(alist):
 alist= [54,26,93,17,77,31,44,55,20] 
 selectionSort(alist)
 print(alist)
+
+
+'''
+    插入排序
+'''
+def insertSort(alist):
+    for i in range(1,len(alist)):
+        currenValue = alist[i]
+        while i > 0 and alist[i - 1] > currenValue:
+            alist[i] = alist[i - 1]
+            i = i - 1
+
+        alist[i]  =currenValue
+
+alist = [54,26,93,17,77,31,44,55,20] 
+insertSort(alist)
+print(alist)
